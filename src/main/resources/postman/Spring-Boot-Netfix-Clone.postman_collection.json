@@ -21,7 +21,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/video/videoplayback",
+							"raw": "http://localhost:8080/api/v1/video/videoplayback.mp4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -31,7 +31,7 @@
 								"api",
 								"v1",
 								"video",
-								"videoplayback"
+								"videoplayback.mp4"
 							]
 						}
 					},
@@ -46,19 +46,30 @@
 					"name": "saveSingleFile",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "autor",
+								"value": "test",
+								"type": "text"
+							},
+							{
+								"key": "title",
+								"value": "test",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/mateo/Downloads/demo_01.mp4"
+									"src": "/C:/dev/Spring-Boot-Netfix-Clone/src/main/resources/videos/videoplayback.mp4"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/file/single/upload",
+							"raw": "http://localhost:8080/api/v1/file/single/upload?autor=MUSIC4VIDEO&title=ROYALTY FREE Cinematic Trailer Music",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -70,6 +81,16 @@
 								"file",
 								"single",
 								"upload"
+							],
+							"query": [
+								{
+									"key": "autor",
+									"value": "MUSIC4VIDEO"
+								},
+								{
+									"key": "title",
+									"value": "ROYALTY FREE Cinematic Trailer Music"
+								}
 							]
 						}
 					},
@@ -93,6 +114,33 @@
 								"file",
 								"delete",
 								"demo_01.mp4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "VideoInfoController",
+			"item": [
+				{
+					"name": "getAllVideoInfo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/video/info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"video",
+								"info"
 							]
 						}
 					},

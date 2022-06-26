@@ -1,10 +1,13 @@
 package personal.netflix.clone.app.services;
 
 import org.springframework.http.codec.multipart.FilePart;
+import personal.netflix.clone.app.entities.VideoInfo;
 import reactor.core.publisher.Mono;
 
 
 public interface FileService {
-    public Boolean saveVideo(Mono<FilePart> filePartMono);
-    public Boolean deleteVideo(String name);
+
+    public void saveVideo(String fileName,VideoInfo videoInfo);
+    public Boolean deleteVideoByName(String name);
+
 }

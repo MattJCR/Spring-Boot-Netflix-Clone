@@ -12,7 +12,7 @@ public class StreamingServiceImpl implements StreamingService {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    private static final String FORMAT = "classpath:videos/%s.mp4";
+    private static final String FORMAT = "classpath:videos/%s";
 
     public Mono<Resource> getVideo(String title){
         return Mono.fromSupplier(()-> resourceLoader.getResource(String.format(FORMAT,title)));

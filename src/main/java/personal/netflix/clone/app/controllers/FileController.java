@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
+import personal.netflix.clone.app.entities.VideoInfo;
 import personal.netflix.clone.app.services.FileService;
 import reactor.core.publisher.Mono;
 
@@ -20,21 +21,27 @@ public class FileController {
     private FileService fileService;
     private static final Path VIDEO_PATH = Paths.get("./src/main/resources/videos/");
     @PostMapping("/single/upload")
-    public Mono<Void> uploadSingleFile(@RequestPart(name = "file") Mono<FilePart> filePartMono){
-        System.out.println("Save video...");
-        //Long result = fileService.saveVideo(filePartMono);
-        //return new ResponseEntity<>("Video uploaded", HttpStatus.ACCEPTED);
-        return  filePartMono
-                .doOnNext(fp -> System.out.println
-                        ("Received File : " + fp.filename()))
-                .flatMap(fp -> fp.
-                        transferTo(VIDEO_PATH.resolve(fp.filename())))
+    public Mono<Void> uploadSingleFile(
+            @RequestPart(name = "file") Mono<FilePart> filePartMono,
+            @RequestParam(name = "autor") String autor,
+            @RequestParam(name = "title") String title){
+        return filePartMono
+                .doOnNext(fp -> {
+                    System.out.println("Try to save file: " + fp.filename());
+                    System.out.println("Save VideoInfo...");
+                    VideoInfo videoInfo = new VideoInfo();
+                    videoInfo.setAutor(autor);
+                    videoInfo.setTitle(title);
+                    fileService.saveVideo(fp.filename(),videoInfo);
+                })
+                .flatMap(fp -> fp.transferTo(VIDEO_PATH.resolve(fp.filename())))
                 .then();
     }
+
     @DeleteMapping("/delete/{name}")
     public ResponseEntity<Boolean> deleteFile(@PathVariable("name") String name){
-        System.out.println("Delete video: " + name);
-        Boolean result = fileService.deleteVideo(name);
+        System.out.println("try to delete video: " + name);
+        Boolean result = fileService.deleteVideoByName(name);
         if(result){
             return new ResponseEntity<>(result, HttpStatus.OK);
         }

@@ -12,10 +12,16 @@ import javax.persistence.Id;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Video extends MediaObject {
+@ToString
+public class VideoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long duration;
-
+    private String title;
+    private String fileName;
+    private String mediaType;
+    private String autor;
+    private Long size;
+    private Integer bitRate;
 }
