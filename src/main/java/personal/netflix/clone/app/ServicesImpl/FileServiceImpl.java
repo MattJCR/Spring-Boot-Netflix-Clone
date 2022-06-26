@@ -22,20 +22,22 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private VideoInfoServiceImpl videoInfoService;
 
-    private void createVideoInfo(String fileName, VideoInfo videoInfo){
+    private void createVideoInfo(VideoInfo videoInfo){
         IContainer container = IContainer.make();
-        container.open(VIDEO_PATH + "/" + fileName, IContainer.Type.READ, null);
+        container.open(VIDEO_PATH + "/" + videoInfo.getFileName(), IContainer.Type.READ, null);
         videoInfo.setDuration(TimeUnit.MICROSECONDS.toSeconds(container.getDuration()));
         videoInfo.setSize(container.getFileSize());
-        videoInfo.setMediaType(fileName.split("\\.")[1]);
+        String[] split = videoInfo.getFileName().split("\\.");
+        if (split.length > 1){
+            videoInfo.setMediaType(split[1]);
+        }
         videoInfo.setBitRate(container.getBitRate());
-        videoInfo.setFileName(fileName);
         container.close();
     }
 
 
-    public void saveVideo(String fileName,VideoInfo videoInfo){
-        createVideoInfo(fileName,videoInfo);
+    public void saveVideo(VideoInfo videoInfo){
+        createVideoInfo(videoInfo);
         videoInfoService.saveOrUpdateVideoInfo(videoInfo);
     }
     public Boolean deleteVideoByName(String name){

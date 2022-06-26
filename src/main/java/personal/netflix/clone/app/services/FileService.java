@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 public interface FileService {
 
-    public void saveVideo(String fileName,VideoInfo videoInfo);
+    public void saveVideo(VideoInfo videoInfo);
     public Boolean deleteVideoByName(String name);
 
 }

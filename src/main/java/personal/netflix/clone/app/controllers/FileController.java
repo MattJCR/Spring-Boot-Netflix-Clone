@@ -28,11 +28,11 @@ public class FileController {
         return filePartMono
                 .doOnNext(fp -> {
                     System.out.println("Try to save file: " + fp.filename());
-                    System.out.println("Save VideoInfo...");
                     VideoInfo videoInfo = new VideoInfo();
                     videoInfo.setAutor(autor);
                     videoInfo.setTitle(title);
-                    fileService.saveVideo(fp.filename(),videoInfo);
+                    videoInfo.setFileName(fp.filename());
+                    fileService.saveVideo(videoInfo);
                 })
                 .flatMap(fp -> fp.transferTo(VIDEO_PATH.resolve(fp.filename())))
                 .then();
