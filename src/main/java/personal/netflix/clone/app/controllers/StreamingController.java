@@ -7,18 +7,14 @@ import reactor.core.publisher.Mono;
 import org.springframework.core.io.Resource;
 
 @RestController
+@RequestMapping("/api/v1/video/")
 public class StreamingController {
     @Autowired
     private StreamingServiceImpl streamingService;
-    @GetMapping(value = "/video/{title}",produces = "video/mp4")
+    @GetMapping(value = "/{title}",produces = "video/mp4")
     public Mono<Resource> getVideo(@PathVariable("title") String title, @RequestHeader("Range") String range){
         System.out.println("Title: " + title);
         System.out.println("range in bytes: " + range);
         return streamingService.getVideo(title);
-    }
-
-    @GetMapping(value = "/holamundo")
-    public String getHolaMundo(){
-        return "Hola mundo";
     }
 }
