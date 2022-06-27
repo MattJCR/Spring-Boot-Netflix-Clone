@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 @RestController
@@ -25,17 +26,17 @@ public class FileController {
             @RequestPart(name = "file") Mono<FilePart> filePartMono,
             @RequestParam(name = "autor") String autor,
             @RequestParam(name = "title") String title){
+        AtomicReference<VideoInfo> videoInfo = new AtomicReference<>(new VideoInfo());
         return filePartMono
                 .doOnNext(fp -> {
                     System.out.println("Try to save file: " + fp.filename());
-                    VideoInfo videoInfo = new VideoInfo();
-                    videoInfo.setAutor(autor);
-                    videoInfo.setTitle(title);
-                    videoInfo.setFileName(fp.filename());
-                    fileService.saveVideo(videoInfo);
+                    videoInfo.set(new VideoInfo());
+                    videoInfo.get().setAutor(autor);
+                    videoInfo.get().setTitle(title);
+                    videoInfo.get().setFileName(fp.filename());
                 })
                 .flatMap(fp -> fp.transferTo(VIDEO_PATH.resolve(fp.filename())))
-                .then();
+                .doFinally(f -> fileService.saveVideo(videoInfo.get()));
     }
 
     @DeleteMapping("/delete/{name}")
