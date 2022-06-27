@@ -1,11 +1,11 @@
 package personal.netflix.clone.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,4 +24,7 @@ public class VideoInfo {
     private String autor;
     private Long size;
     private Integer bitRate;
+    @ManyToMany(mappedBy = "videoInfos")
+    @JsonIgnore
+    private Set<User> users = new HashSet<>();
 }

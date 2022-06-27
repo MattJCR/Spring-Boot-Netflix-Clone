@@ -23,16 +23,17 @@ public class FileServiceImpl implements FileService {
     private VideoInfoServiceImpl videoInfoService;
 
     private void createVideoInfo(VideoInfo videoInfo){
-        IContainer container = IContainer.make();
-        container.open(VIDEO_PATH + "/" + videoInfo.getFileName(), IContainer.Type.READ, null);
-        videoInfo.setDuration(TimeUnit.MICROSECONDS.toSeconds(container.getDuration()));
-        videoInfo.setSize(container.getFileSize());
+        //TODO Fix EXCEPTION_ACCESS_VIOLATION in IContainer class or get metadata by other way
+        //IContainer container = IContainer.make();
+        //container.open(VIDEO_PATH + "/" + videoInfo.getFileName(), IContainer.Type.READ, null);
+        //videoInfo.setDuration(TimeUnit.MICROSECONDS.toSeconds(container.getDuration()));
+        //videoInfo.setSize(container.getFileSize());
         String[] split = videoInfo.getFileName().split("\\.");
         if (split.length > 1){
             videoInfo.setMediaType(split[1]);
         }
-        videoInfo.setBitRate(container.getBitRate());
-        container.close();
+        //videoInfo.setBitRate(container.getBitRate());
+        //container.close();
     }
 
 
