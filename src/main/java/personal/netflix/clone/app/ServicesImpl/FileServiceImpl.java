@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 import personal.netflix.clone.app.entities.VideoInfo;
 import personal.netflix.clone.app.services.FileService;
 
+import javax.activation.MimetypesFileTypeMap;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -23,17 +24,23 @@ public class FileServiceImpl implements FileService {
     private VideoInfoServiceImpl videoInfoService;
 
     private void createVideoInfo(VideoInfo videoInfo){
-        //TODO Fix EXCEPTION_ACCESS_VIOLATION in IContainer class or get metadata by other way
-        //IContainer container = IContainer.make();
-        //container.open(VIDEO_PATH + "/" + videoInfo.getFileName(), IContainer.Type.READ, null);
-        //videoInfo.setDuration(TimeUnit.MICROSECONDS.toSeconds(container.getDuration()));
-        //videoInfo.setSize(container.getFileSize());
+        File file = new File(VIDEO_PATH + videoInfo.getFileName());
+        MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
+        String mimeType = fileTypeMap.getContentType(file);
+        videoInfo.setMimeType(mimeType);
         String[] split = videoInfo.getFileName().split("\\.");
         if (split.length > 1){
-            videoInfo.setMediaType(split[1]);
+            videoInfo.setFileExtension(split[1]);
         }
-        //videoInfo.setBitRate(container.getBitRate());
-        //container.close();
+
+        //TODO: Fix EXCEPTION_ACCESS_VIOLATION in IContainer class or get metadata by other way
+        IContainer container = IContainer.make();
+        container.open(VIDEO_PATH + "/" + videoInfo.getFileName(), IContainer.Type.READ, null);
+        System.out.println(container.getMetaData().getKeys());
+        videoInfo.setDuration(TimeUnit.MICROSECONDS.toSeconds(container.getDuration()));
+        videoInfo.setSize(container.getFileSize());
+        videoInfo.setBitRate(container.getBitRate());
+        container.close();
     }
 
 

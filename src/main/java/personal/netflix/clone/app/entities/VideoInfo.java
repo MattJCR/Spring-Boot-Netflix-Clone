@@ -20,7 +20,8 @@ public class VideoInfo {
     private Long duration;
     private String title;
     private String fileName;
-    private String mediaType;
+    private String fileExtension;
+    private String mimeType;
     private String autor;
     private Long size;
     private Integer bitRate;
