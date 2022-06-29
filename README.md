@@ -10,6 +10,8 @@ https://youtu.be/_PEPaWFs064
 >ROYALTY FREE Cinematic Trailer Music | Cinematic Trailer Background Music by MUSIC4VIDEO
 https://youtu.be/knRAM6AHcKI
 
->Xuggle documentación http://www.xuggle.com/xuggler/documentation
+>~~Xuggle documentación http://www.xuggle.com/xuggler/documentation~~
 
->Xuggle formateo de tiempo https://stackoverflow.com/questions/36286449/how-to-get-duration-length-of-the-video-using-xuggler
+>~~Xuggle formateo de tiempo https://stackoverflow.com/questions/36286449/how-to-get-duration-length-of-the-video-using-xuggler~~
+
+>Humble Video documentación https://github.com/artclarke/humble-video
