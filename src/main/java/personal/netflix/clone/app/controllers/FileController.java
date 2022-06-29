@@ -32,7 +32,6 @@ public class FileController {
                     System.out.println("Try to save file: " + fp.filename());
                     videoInfo.set(new VideoInfo());
                     videoInfo.get().setAutor(autor);
-                    videoInfo.get().setTitle(title);
                     videoInfo.get().setFileName(fp.filename());
                 })
                 .flatMap(fp -> fp.transferTo(VIDEO_PATH.resolve(fp.filename())))
